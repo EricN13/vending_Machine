@@ -104,15 +104,26 @@ public class VendingMachineTests {
         assertEquals(expected, result, 0);
     }
 
-//    @Test
-//    public void checkBalanceOfTheVendingMachine() {
-//        vendingMachineService.addItem(item);
-//        vendingMachineService.addItem(item1);
-//        vendingMachineService.addItem(item2);
-//        vendingMachineService.addItem(item3);
-//
-//        vendingMachineService.getItemByCode(item1.getCode());
-//
-//
-//    }
+    @Test
+    public void checkBalanceOfTheVendingMachine() {
+        vendingMachineService.addItem(item);
+        vendingMachineService.addItem(item1);
+        vendingMachineService.addItem(item2);
+        vendingMachineService.addItem(item3);
+        vendingMachineService.addItem(item3);
+        vendingMachineService.vend(30,item.getCode());
+        double expectedBalance=item.getPrice();
+        double vendingMachineBalance=vendingMachineService.getMoneyBalance();
+        assertFalse(vendingMachineService.getAvailableItems().containsKey(item));
+        assertEquals(expectedBalance,vendingMachineBalance,0);
+
+        vendingMachineService.vend(35,item3.getCode());
+         expectedBalance=item3.getPrice()+item.getPrice();
+         vendingMachineBalance=vendingMachineService.getMoneyBalance();
+         int quantity=vendingMachineService.getAvailableItems().get(item3);
+        assertEquals(1,quantity);
+        assertEquals(expectedBalance,vendingMachineBalance,0);
+
+
+    }
 }
