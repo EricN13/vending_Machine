@@ -1,17 +1,17 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class VendingMachine {
-    private List<Item> itemList;
+    private Map<Item, Integer> itemList;
 
 
     public VendingMachine() {
-        itemList = new ArrayList<>();
+        itemList = new HashMap<>();
     }
 
-    public List<Item> getItemList() {
+    public Map<Item, Integer> getItemList() {
         return itemList;
     }
 }

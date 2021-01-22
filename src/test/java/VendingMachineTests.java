@@ -2,14 +2,19 @@ import model.Item;
 import org.junit.Test;
 import service.VendingMachineService;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.junit.Assert.*;
 
 public class VendingMachineTests {
 
     VendingMachineService vendingMachineService = new VendingMachineService();
 
-    Item item = new Item(24.24f);
-    Item item1 = new Item(27.24f);
+    Item item = new Item(24.24, "Coca-Cola", "23123");
+    Item item1 = new Item(27.24, "Fanta",  "232132");
+    Item item2 = new Item(21.24, "Ginger Ale", "534234");
+    Item item3 = new Item(39.24, "Sprite", "2321553");
 
     @Test
     public void isEmpty() {
@@ -21,7 +26,7 @@ public class VendingMachineTests {
         vendingMachineService.addItem(item);
 
         assertFalse(vendingMachineService.isEmpty());
-        assertEquals(vendingMachineService.getVendingMachine().getItemList().get(0), item);
+        assertTrue(vendingMachineService.getVendingMachine().getItemList().containsKey(item));
 
     }
 
@@ -70,4 +75,44 @@ public class VendingMachineTests {
 
         assertEquals(expected, result, 0);
     }
+
+    @Test
+    public void checkWhatIsAvailable() {
+        vendingMachineService.addItem(item);
+        vendingMachineService.addItem(item1);
+        vendingMachineService.addItem(item2);
+        vendingMachineService.addItem(item3);
+        vendingMachineService.addItem(item3);
+        Map<Item, Integer> listOfAvailableItems = vendingMachineService.getAvailableItems();
+        Map<Item, Integer> expected = new HashMap<>();
+        expected.put(item, 1);
+        expected.put(item1, 1);
+        expected.put(item2, 1);
+        expected.put(item3, 2);
+
+        assertEquals(expected, listOfAvailableItems);
+        assertEquals(expected.get(item).toString(), listOfAvailableItems.get(item).toString());
+    }
+
+    @Test
+    public void checkAmountInserted() {
+        double currentBalance = vendingMachineService.getMoneyBalance();
+        double expected = vendingMachineService.deposit(10);
+
+        double result = vendingMachineService.getMoneyBalance() - currentBalance;
+
+        assertEquals(expected, result, 0);
+    }
+
+//    @Test
+//    public void checkBalanceOfTheVendingMachine() {
+//        vendingMachineService.addItem(item);
+//        vendingMachineService.addItem(item1);
+//        vendingMachineService.addItem(item2);
+//        vendingMachineService.addItem(item3);
+//
+//        vendingMachineService.getItemByCode(item1.getCode());
+//
+//
+//    }
 }
